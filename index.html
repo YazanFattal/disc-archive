@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100d17">
+  <meta name="description" content="Browse original cover art and game profiles for 100 PlayStation and 100 PlayStation 2 classics.">
+  <title>Disc Archive — PlayStation &amp; PlayStation 2</title>
+  <link rel="icon" href="disc.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="archive.css">
+  <script defer src="games.js"></script>
+  <script defer src="archive.js"></script>
+</head>
+<body>
+  <a class="skip" href="#catalog">Skip to the covers</a>
+  <header class="masthead">
+    <div class="inner navigation">
+      <a class="wordmark" href="#" aria-label="Disc Archive home"><span class="brand-disc" aria-hidden="true"></span>DISC<span>ARCHIVE</span></a>
+      <nav class="console-nav" aria-label="Console volumes">
+        <a href="#ps1" data-console="ps1">PlayStation</a>
+        <a href="#ps2" data-console="ps2">PlayStation 2</a>
+      </nav>
+      <a class="nav-search" href="#search" aria-label="Find a game"><span class="search-icon" aria-hidden="true"></span></a>
+    </div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="inner hero-layout">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> THE PLAYSTATION COVER COLLECTION</p>
+          <h1 id="page-title">DISC<br>ARCHIVE<span>.</span></h1>
+          <p class="intro">Two consoles, 200 classics. A look back at the games and cover art that defined the original PlayStation era.</p>
+          <a href="#catalog" class="browse-link">Browse the collection <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-grid"></div>
+          <div class="guide guide-top"></div>
+          <div class="guide guide-bottom"></div>
+          <div class="disc-cross disc-cross-top">+</div>
+          <div class="disc-cross disc-cross-bottom">+</div>
+          <div class="disc-orbit">
+            <div class="disc">
+              <div class="disc-track"></div>
+              <div class="disc-hub"></div>
+            </div>
+          </div>
+          <div class="button-symbols"><span>△</span><span>○</span><span>×</span><span>□</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="catalog inner" id="catalog" aria-labelledby="volume-title">
+      <div class="volume-header">
+        <div>
+          <p class="eyebrow volume-label" id="volume-label">VOLUME 01</p>
+          <h2 id="volume-title">PlayStation</h2>
+        </div>
+        <div class="volume-switch" role="group" aria-label="Choose a console">
+          <button type="button" data-console="ps1" aria-pressed="true">PS1</button>
+          <button type="button" data-console="ps2" aria-pressed="false">PS2</button>
+        </div>
+      </div>
+      <div class="filters">
+        <label class="search-field"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">Search games in this volume</span><input id="search" type="search" placeholder="Find a game…" autocomplete="off"></label>
+        <label class="select-field"><span class="sr-only">Filter by genre</span><select id="genre"><option value="">All genres</option></select></label>
+        <label class="select-field"><span class="sr-only">Sort games</span><select id="sort"><option value="curated">Featured first</option><option value="alphabetical">Title A–Z</option><option value="oldest">Oldest first</option><option value="newest">Newest first</option></select></label>
+      </div>
+      <p id="count" class="count" aria-live="polite"></p>
+      <ul class="covers" id="covers"></ul>
+      <div class="empty" id="empty" hidden>
+        <p>No games match your search.</p>
+        <button type="button" id="reset">Clear filters</button>
+      </div>
+      <noscript><p>Enable JavaScript to browse the game covers and open game profiles.</p></noscript>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="inner footer-content">
+      <div>
+        <a class="wordmark" href="#" aria-label="Disc Archive home"><span class="brand-disc" aria-hidden="true"></span>DISC<span>ARCHIVE</span></a>
+        <p>An independent PlayStation cover collection.</p>
+      </div>
+      <a href="https://github.com/libretro-thumbnails" target="_blank" rel="noreferrer">Cover scans via Libretro <span aria-hidden="true">↗</span></a>
+    </div>
+  </footer>
+  <dialog id="game-dialog" aria-labelledby="game-title">
+    <div class="game-panel">
+      <form method="dialog"><button class="close-game" type="submit" aria-label="Close game details" autofocus>×</button></form>
+      <div class="game-cover cover-frame"><img id="game-image" alt=""></div>
+      <div class="game-copy">
+        <p class="eyebrow" id="game-volume"></p>
+        <h2 id="game-title"></h2>
+        <dl class="facts">
+          <div><dt>Released</dt><dd id="game-year"></dd></div>
+          <div><dt>Genre</dt><dd id="game-genre"></dd></div>
+          <div><dt>Cover region</dt><dd id="game-region"></dd></div>
+        </dl>
+        <p class="game-description" id="game-description"></p>
+        <a class="cover-source" id="game-source" target="_blank" rel="noreferrer">View cover scan <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+  <template id="cover-template">
+    <li><button class="game-card" type="button">
+      <span class="cover-frame"><span class="cover-placeholder" aria-hidden="true"></span><img alt="" loading="lazy" decoding="async"></span>
+      <span class="game-card-title"></span>
+      <span class="game-card-meta"></span>
+    </button></li>
+  </template>
+</body>
+</html>
