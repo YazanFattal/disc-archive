@@ -81,6 +81,7 @@ button { color: inherit; }
 .console-nav { display: flex; height: 100%; gap: 28px; }
 .console-nav a { color: var(--muted); font-size: 13px; font-weight: 600; display: grid; place-items: center; border-bottom: 2px solid transparent; transition: color .15s; }
 .console-nav a[aria-current="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.console-nav a[data-console="xbox360"][aria-current="true"] { color: #a7e576; border-bottom-color: #a7e576; }
 .console-nav a:hover, .nav-search:hover { color: var(--text); }
 .nav-search { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 4px; color: var(--accent); justify-self: end; }
 .search-icon { width: 14px; height: 14px; border: 1.5px solid currentColor; display: inline-block; position: relative; border-radius: 50%; margin-right: 3px; margin-bottom: 3px; flex: none; }
@@ -120,12 +121,14 @@ h1 span { color: var(--accent); margin-left: .055em; }
 .button-symbols { position: absolute; right: 13%; bottom: 5%; display: flex; gap: 12px; color: #a38bbb; font: 16px/1 var(--mono); }
 
 .catalog { padding-block: 35px 68px; scroll-margin-top: 18px; }
+.catalog[data-console="xbox360"] { --accent: #a7e576; --line-bright: #586549; }
 .volume-header { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
 .volume-label { margin-bottom: 8px; }
 .volume-header h2 { font-weight: 700; font-size: clamp(33px, 4.1vw, 65px); letter-spacing: -.075em; line-height: .98; margin: 0; }
 .volume-switch { flex: none; display: inline-flex; gap: 4px; border: 1px solid var(--line); border-radius: 5px; background: #14111b; padding: 4px; }
 .volume-switch button { background: transparent; border: 1px solid transparent; border-radius: 3px; min-width: 50px; min-height: 36px; padding: 3px 9px; font: 600 12px/1 var(--mono); color: var(--muted); cursor: pointer; }
 .volume-switch button[aria-pressed="true"] { background: #322347; border-color: #5b4178; color: #e5d7ff; }
+.volume-switch button[data-console="xbox360"][aria-pressed="true"] { background: #243521; border-color: #567945; color: #c6f5ac; }
 .volume-switch button:hover { color: var(--text); }
 .filters { display: grid; grid-template-columns: minmax(0, 1fr) 157px 162px; gap: 9px; border-top: 1px solid var(--line); margin-top: 24px; padding-top: 15px; }
 .search-field, .select-field { position: relative; display: flex; align-items: center; gap: 11px; height: 41px; background: #17131f; border: 1px solid var(--line); border-radius: 4px; color: var(--accent); }
@@ -142,7 +145,7 @@ h1 span { color: var(--accent); margin-left: .055em; }
 .game-card { width: 100%; height: 100%; display: flex; flex-direction: column; text-align: left; padding: 0; border: 0; background: none; border-radius: 4px; cursor: pointer; }
 .cover-frame { overflow: hidden; position: relative; background: #17121f; border: 1px solid var(--line); border-radius: 4px; display: grid; place-items: center; width: 100%; box-shadow: 0 6px 14px #07050b91; }
 .game-card .cover-frame { aspect-ratio: 1; transition: transform .2s, border-color .2s, box-shadow .2s; }
-.catalog[data-console="ps2"] .game-card .cover-frame { aspect-ratio: .71; }
+.catalog:is([data-console="ps2"], [data-console="xbox360"]) .game-card .cover-frame { aspect-ratio: .71; }
 .cover-frame img { position: relative; grid-area: 1/1; display: block; width: 100%; height: 100%; object-fit: contain; min-height: 0; }
 .cover-placeholder { grid-area: 1/1; max-width: 95%; padding: 6px; text-align: center; color: var(--muted); font: 500 12px/1.5 var(--mono); }
 .game-card .cover-frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 2px 0 0 #ffffff23, inset 0 1px 0 #ffffff21; }
@@ -155,8 +158,9 @@ h1 span { color: var(--accent); margin-left: .055em; }
 .footer { border-top: 1px solid var(--line); background: #0d0b11; padding: 28px 0; color: var(--muted); }
 .footer-content { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .footer p { margin: 10px 0 0; font-size: 13px; }
-.footer-content > a { color: var(--accent); font: 400 11px/1.5 var(--mono); }
-.footer-content > a:hover, .cover-source:hover { text-decoration: underline; }
+.cover-credits { display: flex; flex-wrap: wrap; justify-content: end; gap: 4px 10px; font: 400 11px/1.5 var(--mono); }
+.cover-credits a { color: var(--accent); }
+.cover-credits a:hover, .cover-source:hover { text-decoration: underline; }
 
 dialog { padding: 0; border: 1px solid #6d508f; border-radius: 8px; color: var(--text); background: #191322; width: min(calc(100% - 32px), 760px); max-height: calc(100% - 32px); box-shadow: 0 25px 95px #000b; }
 dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
@@ -185,13 +189,15 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
 }
 @media (max-width: 650px) {
   .inner { width: calc(100% - 34px); }
-  .navigation { height: 55px; }
+  .navigation { height: auto; grid-template-columns: 1fr auto; grid-template-rows: 49px 37px; }
   .wordmark { font-size: 12px; }
   .brand-disc { width: 19px; height: 19px; margin-right: 6px; }
   .brand-disc::before { inset: 5px; }
-  .console-nav { gap: 10px; }
-  .console-nav a { font-size: 11px; }
-  .nav-search { width: 33px; height: 33px; }
+  .console-nav { grid-area: 2 / 1 / 3 / -1; gap: 19px; }
+  .console-nav a { font-size: 12px; }
+  .navigation .nav-search { grid-area: 1 / 2; width: 33px; height: 33px; }
+  .volume-header { flex-wrap: wrap; }
+  .volume-switch button { min-width: 43px; }
   .hero-layout { position: relative; display: block; min-height: 310px; }
   .hero-copy { padding-block: 42px 34px; }
   .hero .eyebrow { font-size: 9px; }
@@ -212,8 +218,8 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
 @media (max-width: 380px) {
   .wordmark { font-size: 10px; }
   .brand-disc { margin-right: 4px; }
-  .console-nav { gap: 7px; }
-  .console-nav a { font-size: 10px; }
+  .console-nav { gap: 13px; }
+  .console-nav a { font-size: 11px; }
   .covers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .game-panel { grid-template-columns: 1fr; }
   .game-cover { max-width: 165px; }

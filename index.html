@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#100d17">
-  <meta name="description" content="Browse original cover art and game profiles for 100 PlayStation and 100 PlayStation 2 classics.">
-  <title>Disc Archive — PlayStation &amp; PlayStation 2</title>
+  <meta name="description" content="Browse original cover art and game profiles for 300 classics across PlayStation, PlayStation 2, and Xbox 360.">
+  <title>Disc Archive — PS1, PS2 &amp; Xbox 360</title>
   <link rel="icon" href="disc.svg" type="image/svg+xml">
   <link rel="stylesheet" href="archive.css">
   <script defer src="games.js"></script>
+  <script defer src="xbox360-games.js"></script>
   <script defer src="archive.js"></script>
 </head>
 <body>
@@ -19,6 +20,7 @@
       <nav class="console-nav" aria-label="Console volumes">
         <a href="#ps1" data-console="ps1">PlayStation</a>
         <a href="#ps2" data-console="ps2">PlayStation 2</a>
+        <a href="#xbox360" data-console="xbox360">Xbox 360</a>
       </nav>
       <a class="nav-search" href="#search" aria-label="Find a game"><span class="search-icon" aria-hidden="true"></span></a>
     </div>
@@ -27,9 +29,9 @@
     <section class="hero" aria-labelledby="page-title">
       <div class="inner hero-layout">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot"></span> THE PLAYSTATION COVER COLLECTION</p>
+          <p class="eyebrow"><span class="status-dot"></span> THE VIDEO GAME COVER COLLECTION</p>
           <h1 id="page-title">DISC<br>ARCHIVE<span>.</span></h1>
-          <p class="intro">Two consoles, 200 classics. A look back at the games and cover art that defined the original PlayStation era.</p>
+          <p class="intro">Three consoles, 300 classics. Browse cover art from the original PlayStation, PlayStation 2, and Xbox 360.</p>
           <a href="#catalog" class="browse-link">Browse the collection <span aria-hidden="true">↓</span></a>
         </div>
         <div class="hero-art" aria-hidden="true">
@@ -57,6 +59,7 @@
         <div class="volume-switch" role="group" aria-label="Choose a console">
           <button type="button" data-console="ps1" aria-pressed="true">PS1</button>
           <button type="button" data-console="ps2" aria-pressed="false">PS2</button>
+          <button type="button" data-console="xbox360" aria-pressed="false">Xbox 360</button>
         </div>
       </div>
       <div class="filters">
@@ -77,9 +80,13 @@
     <div class="inner footer-content">
       <div>
         <a class="wordmark" href="#" aria-label="Disc Archive home"><span class="brand-disc" aria-hidden="true"></span>DISC<span>ARCHIVE</span></a>
-        <p>An independent PlayStation cover collection.</p>
+        <p>An independent game cover collection.</p>
       </div>
-      <a href="https://github.com/libretro-thumbnails" target="_blank" rel="noreferrer">Cover scans via Libretro <span aria-hidden="true">↗</span></a>
+      <div class="cover-credits">
+        <span>Cover scans</span>
+        <a href="https://github.com/libretro-thumbnails" target="_blank" rel="noreferrer">Libretro <span aria-hidden="true">↗</span></a>
+        <a href="https://gamesdb.launchbox-app.com/" target="_blank" rel="noreferrer">LaunchBox <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </footer>
   <dialog id="game-dialog" aria-labelledby="game-title">

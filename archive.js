@@ -1,7 +1,10 @@
 (() => {
   const catalog = window.discArchiveGames
-  const consoles = { ps1: 'PlayStation', ps2: 'PlayStation 2' }
-  const byId = new Map(catalog.map(game => [game.id, game]))
+  const consoles = {
+    ps1: { title: 'PlayStation', volume: '01' },
+    ps2: { title: 'PlayStation 2', volume: '02' },
+    xbox360: { title: 'Xbox 360', volume: '03' }
+  }
   const find = selector => document.querySelector(selector)
   const collection = find('#catalog')
   const grid = find('#covers')
@@ -23,8 +26,9 @@
   function render() {
     const games = catalog.filter(game => game.console === consoleId)
     if (renderedConsole !== consoleId) {
-      find('#volume-title').textContent = consoles[consoleId]
-      find('#volume-label').textContent = consoleId === 'ps1' ? 'VOLUME 01' : 'VOLUME 02'
+      const volume = consoles[consoleId]
+      find('#volume-title').textContent = volume.title
+      find('#volume-label').textContent = 'VOLUME ' + volume.volume
       const genres = [...new Set(games.map(game => game.genre))].sort(collator.compare)
       genre.replaceChildren(new Option('All genres', ''), ...genres.map(name => new Option(name, name)))
       for (const control of controls) {
@@ -68,7 +72,7 @@
 
   function openDetails(game) {
     find('#game-title').textContent = game.title
-    find('#game-volume').textContent = consoles[game.console]
+    find('#game-volume').textContent = consoles[game.console].title
     find('#game-year').textContent = game.year
     find('#game-genre').textContent = game.genre
     find('#game-region').textContent = game.region
@@ -87,8 +91,8 @@
       search.value = ''
     }
     if (renderedConsole !== consoleId) render()
-    const game = byId.get(id)
-    if (game && game.console === consoleId) openDetails(game)
+    const game = catalog.find(entry => entry.console === section && entry.id === id)
+    if (game) openDetails(game)
     else if (dialog.open) dialog.close()
   }
 
@@ -110,7 +114,7 @@
   grid.addEventListener('click', event => {
     const card = event.target.closest('[data-game]')
     if (!card) return
-    const game = byId.get(card.dataset.game)
+    const game = catalog.find(entry => entry.console === consoleId && entry.id === card.dataset.game)
     history.pushState({ gameOpenedFromCatalog: true }, '', '#' + consoleId + '/' + game.id)
     openDetails(game)
   })
