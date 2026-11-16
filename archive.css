@@ -164,11 +164,43 @@ h1 span { color: var(--accent); margin-left: .055em; }
 
 dialog { padding: 0; border: 1px solid #6d508f; border-radius: 8px; color: var(--text); background: #191322; width: min(calc(100% - 32px), 760px); max-height: calc(100% - 32px); box-shadow: 0 25px 95px #000b; }
 dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
-.game-panel { position: relative; display: grid; grid-template-columns: minmax(120px, .75fr) minmax(0, 1fr); gap: 29px; align-items: start; padding: 32px; }
-.game-panel form { position: absolute; top: 10px; right: 10px; z-index: 1; }
-.close-game { display: grid; place-items: center; width: 36px; height: 36px; padding: 0 0 2px; line-height: 1; font-size: 23px; border: 1px solid var(--line-bright); background: #21182d; border-radius: 4px; color: var(--accent); cursor: pointer; }
-.close-game:hover { background: #39284d; }
-.game-cover img { height: auto; max-height: 58vh; }
+.game-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #191322;
+}
+.game-nav { display: flex; align-items: center; gap: 9px; }
+.game-nav button, .close-game {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 12px;
+  line-height: 1;
+  border: 1px solid var(--line-bright);
+  background: #21182d;
+  border-radius: 4px;
+  color: var(--accent);
+  cursor: pointer;
+}
+.game-nav button { font-size: 14px; font-weight: 650; }
+.game-nav button span[aria-hidden] { font-size: 20px; }
+.game-nav button:disabled { opacity: .4; cursor: default; }
+.game-nav button:not(:disabled):hover, .close-game:hover { background: #39284d; }
+#game-position { color: var(--muted); min-width: 52px; text-align: center; font: 400 11px/1.4 var(--mono); }
+.close-game { padding: 0 0 2px; font-size: 23px; }
+.game-panel { display: grid; grid-template-columns: minmax(120px, .75fr) minmax(0, 1fr); gap: 29px; align-items: start; padding: 24px 32px 32px; touch-action: pan-y pinch-zoom; }
+.game-cover { aspect-ratio: 1; max-height: 58vh; }
+#game-dialog:is([data-platform="ps2"], [data-platform="xbox360"]) .game-cover { aspect-ratio: .71; }
 .game-copy { padding-top: 6px; }
 .game-copy h2 { margin: 11px 18px 18px 0; font-size: clamp(23px, 4.5vw, 43px); line-height: 1.03; letter-spacing: -.06em; overflow-wrap: anywhere; }
 .facts { display: flex; flex-wrap: wrap; gap: 12px 20px; border-block: 1px solid var(--line-bright); margin: 0; padding: 11px 0; }
@@ -227,7 +259,8 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
   .covers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 9px; }
   .game-card-title { font-size: 12px; }
   .game-card-meta { font-size: 9px; }
-  .game-panel { gap: 16px; padding: 40px 17px 19px; }
+  .game-toolbar { padding-inline: 12px; }
+  .game-panel { gap: 16px; padding: 19px 17px; }
   .game-description { font-size: 14px; }
 }
 @media (max-width: 380px) {
@@ -236,6 +269,7 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
   .console-nav { gap: 13px; }
   .console-nav a { font-size: 11px; }
   .covers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .game-step-label { display: none; }
   .game-panel { grid-template-columns: 1fr; }
   .game-cover { max-width: 165px; }
 }

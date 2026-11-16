@@ -13,8 +13,10 @@
   const genre = find('#genre')
   const sort = find('#sort')
   const dialog = find('#game-dialog')
-  const modalImage = find('#game-image')
   const modalSource = find('#game-source')
+  const previousGame = find('#game-previous')
+  const nextGame = find('#game-next')
+  const gamePosition = find('#game-position')
   const gameplay = find('#gameplay')
   const gameplaySource = find('#gameplay-source')
   const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true })
@@ -22,6 +24,10 @@
   const searchKey = value => value.normalize('NFKD').toLowerCase().replace(/\p{Mark}/gu, '').replace(/[^a-z0-9]+/g, ' ').trim()
   let consoleId = 'ps1'
   let renderedConsole
+  let visibleGames = []
+  let detailGames = []
+  let detailIndex = -1
+  let swipeStart = null
 
   for (const game of catalog) game.searchKey = searchKey([game.title, game.alias].filter(Boolean).join(' '))
 
@@ -50,6 +56,8 @@
     if (sort.value === 'oldest') visible.sort((first, second) => first.year - second.year)
     if (sort.value === 'newest') visible.sort((first, second) => second.year - first.year)
 
+    visibleGames = visible
+
     const cards = visible.map((game, index) => {
       const card = template.content.firstElementChild.cloneNode(true)
       const button = card.querySelector('button')
@@ -72,16 +80,28 @@
       : visible.length + ' of ' + games.length + ' games'
   }
 
-  function openDetails(game) {
+  function openDetails(game, sequence = visibleGames.includes(game) ? visibleGames : catalog.filter(entry => entry.console === game.console)) {
+    detailGames = sequence
+    detailIndex = sequence.indexOf(game)
+    previousGame.disabled = detailIndex === 0
+    nextGame.disabled = detailIndex === sequence.length - 1
+    gamePosition.textContent = `${detailIndex + 1} / ${sequence.length}`
+    if (document.activeElement === previousGame && previousGame.disabled && !nextGame.disabled) nextGame.focus()
+    if (document.activeElement === nextGame && nextGame.disabled && !previousGame.disabled) previousGame.focus()
+    dialog.dataset.platform = game.console
     find('#game-title').textContent = game.title
     find('#game-volume').textContent = consoles[game.console].title
     find('#game-year').textContent = game.year
     find('#game-genre').textContent = game.genre
     find('#game-region').textContent = game.region
     find('#game-description').textContent = game.description
-    modalImage.hidden = false
-    modalImage.alt = game.title + ' cover'
-    modalImage.src = game.cover
+    const previousCover = find('#game-image')
+    const cover = new Image()
+    cover.id = previousCover.id
+    cover.alt = game.title + ' cover'
+    cover.addEventListener('error', () => { cover.hidden = true }, { once: true })
+    previousCover.replaceWith(cover)
+    cover.src = game.cover
     modalSource.href = game.source
 
     const screenshot = window.discArchiveGameplay?.[game.console + '/' + game.id]
@@ -102,8 +122,17 @@
       previousImage.removeAttribute('src')
     }
 
-    if (!dialog.open) dialog.showModal()
-    dialog.scrollTop = 0
+    if (!dialog.open) {
+      dialog.showModal()
+      dialog.scrollTop = 0
+    }
+  }
+
+  function moveDetails(step) {
+    const game = detailGames[detailIndex + step]
+    if (!game) return
+    history.replaceState(history.state, '', '#' + game.console + '/' + game.id)
+    openDetails(game, detailGames)
   }
 
   function readLocation() {
@@ -140,7 +169,27 @@
     history.pushState({ gameOpenedFromCatalog: true }, '', '#' + consoleId + '/' + game.id)
     openDetails(game)
   })
-  modalImage.addEventListener('error', () => { modalImage.hidden = true })
+  previousGame.addEventListener('click', () => moveDetails(-1))
+  nextGame.addEventListener('click', () => moveDetails(1))
+  dialog.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+    event.preventDefault()
+    moveDetails(event.key === 'ArrowLeft' ? -1 : 1)
+  })
+  dialog.addEventListener('touchstart', event => {
+    swipeStart = event.touches.length === 1 && !event.target.closest('button, a') ? event.touches[0] : null
+  }, { passive: true })
+  dialog.addEventListener('touchend', event => {
+    const start = swipeStart
+    swipeStart = null
+    const end = Array.from(event.changedTouches).find(touch => touch.identifier === start?.identifier)
+    if (!start || !end) return
+    const x = end.clientX - start.clientX
+    const y = end.clientY - start.clientY
+    if (Math.abs(x) >= 55 && Math.abs(x) > Math.abs(y) * 1.4) moveDetails(x < 0 ? 1 : -1)
+  }, { passive: true })
+  dialog.addEventListener('touchcancel', () => { swipeStart = null }, { passive: true })
   dialog.addEventListener('click', event => {
     if (event.target === dialog) dialog.close()
   })

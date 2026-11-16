@@ -7,11 +7,13 @@
   <meta name="description" content="Browse original cover art and game profiles for 300 classics across PlayStation, PlayStation 2, and Xbox 360.">
   <title>Disc Archive — PS1, PS2 &amp; Xbox 360</title>
   <link rel="icon" href="disc.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="archive.css">
+  <link rel="stylesheet" href="archive.css?v=3">
   <script defer src="games.js"></script>
   <script defer src="xbox360-games.js"></script>
-  <script defer src="gameplay.js"></script>
-  <script defer src="archive.js"></script>
+  <script defer src="gameplay.js?v=3"></script>
+  <script defer src="gameplay-ps2.js"></script>
+  <script defer src="gameplay-xbox360.js"></script>
+  <script defer src="archive.js?v=3"></script>
 </head>
 <body>
   <a class="skip" href="#catalog">Skip to the covers</a>
@@ -91,8 +93,15 @@
     </div>
   </footer>
   <dialog id="game-dialog" aria-labelledby="game-title">
-    <div class="game-panel">
+    <div class="game-toolbar">
+      <nav class="game-nav" aria-label="Browse games">
+        <button type="button" id="game-previous" aria-label="Previous game"><span aria-hidden="true">←</span><span class="game-step-label">Previous</span></button>
+        <span id="game-position" aria-live="polite" aria-atomic="true"></span>
+        <button type="button" id="game-next" aria-label="Next game"><span class="game-step-label">Next</span><span aria-hidden="true">→</span></button>
+      </nav>
       <form method="dialog"><button class="close-game" type="submit" aria-label="Close game details" autofocus>×</button></form>
+    </div>
+    <div class="game-panel">
       <div class="game-cover cover-frame"><img id="game-image" alt=""></div>
       <div class="game-copy">
         <p class="eyebrow" id="game-volume"></p>
