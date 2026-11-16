@@ -211,7 +211,18 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
   .disc { width: 87%; }
   .guide, .disc-cross, .button-symbols { display: none; }
   .catalog { padding-block: 32px 47px; }
-  .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 16px; }
+  .filters {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 16px -17px 0;
+    padding: 10px 17px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .search-field, .select-field { height: 44px; }
+  .search-field input, .select-field select { font-family: var(--font); font-size: 16px; }
   .search-field { grid-column: 1/-1; }
   .covers { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 9px; }
   .game-card-title { font-size: 12px; }
