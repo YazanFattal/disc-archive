@@ -15,6 +15,9 @@
   const dialog = find('#game-dialog')
   const modalImage = find('#game-image')
   const modalSource = find('#game-source')
+  const gameplay = find('#gameplay')
+  const gameplayImage = find('#gameplay-image')
+  const gameplaySource = find('#gameplay-source')
   const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true })
   const controls = document.querySelectorAll('[data-console]')
   const searchKey = value => value.normalize('NFKD').toLowerCase().replace(/\p{Mark}/gu, '').replace(/[^a-z0-9]+/g, ' ').trim()
@@ -81,7 +84,21 @@
     modalImage.alt = game.title + ' cover'
     modalImage.src = game.cover
     modalSource.href = game.source
+
+    const screenshot = window.discArchiveGameplay?.[game.console + '/' + game.id]
+    gameplay.hidden = !screenshot
+    if (screenshot) {
+      gameplayImage.alt = screenshot.alt
+      gameplayImage.width = screenshot.width
+      gameplayImage.height = screenshot.height
+      gameplayImage.src = screenshot.image
+      gameplaySource.href = screenshot.source
+    } else {
+      gameplayImage.removeAttribute('src')
+    }
+
     if (!dialog.open) dialog.showModal()
+    dialog.scrollTop = 0
   }
 
   function readLocation() {
@@ -119,6 +136,7 @@
     openDetails(game)
   })
   modalImage.addEventListener('error', () => { modalImage.hidden = true })
+  gameplayImage.addEventListener('error', () => { gameplay.hidden = true })
   dialog.addEventListener('click', event => {
     if (event.target === dialog) dialog.close()
   })

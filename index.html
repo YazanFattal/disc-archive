@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="archive.css">
   <script defer src="games.js"></script>
   <script defer src="xbox360-games.js"></script>
+  <script defer src="gameplay.js"></script>
   <script defer src="archive.js"></script>
 </head>
 <body>
@@ -104,6 +105,13 @@
         <p class="game-description" id="game-description"></p>
         <a class="cover-source" id="game-source" target="_blank" rel="noreferrer">View cover scan <span aria-hidden="true">↗</span></a>
       </div>
+      <section class="gameplay" id="gameplay" aria-labelledby="gameplay-title" hidden>
+        <div class="gameplay-heading">
+          <h3 id="gameplay-title">Gameplay</h3>
+          <a class="cover-source" id="gameplay-source" target="_blank" rel="noreferrer">Screenshot source <span aria-hidden="true">↗</span></a>
+        </div>
+        <img id="gameplay-image" alt="" decoding="async">
+      </section>
     </div>
   </dialog>
   <template id="cover-template">

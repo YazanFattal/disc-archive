@@ -176,6 +176,10 @@ dialog::backdrop { background: #0c0812d0; backdrop-filter: blur(5px); }
 .facts dd { margin: 3px 0 0; font-size: 13px; font-weight: 700; }
 .game-description { color: #d8ccdf; line-height: 1.55; font-size: 16px; }
 .cover-source { display: inline-block; color: var(--accent); font: 500 11px/1.4 var(--mono); }
+.gameplay { grid-column: 1 / -1; padding-top: 16px; border-top: 1px solid var(--line-bright); }
+.gameplay-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 12px; }
+.gameplay-heading h3 { margin: 0; font-size: 18px; letter-spacing: -.02em; }
+.gameplay img { display: block; width: min(100%, 440px); height: auto; margin-inline: auto; border: 1px solid var(--line); border-radius: 4px; }
 
 @media (max-width: 1180px) {
   .hero-layout { min-height: 350px; }
