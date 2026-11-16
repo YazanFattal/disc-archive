@@ -7,13 +7,13 @@
   <meta name="description" content="Browse original cover art and game profiles for 300 classics across PlayStation, PlayStation 2, and Xbox 360.">
   <title>Disc Archive — PS1, PS2 &amp; Xbox 360</title>
   <link rel="icon" href="disc.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="archive.css?v=3">
+  <link rel="stylesheet" href="archive.css?v=4">
   <script defer src="games.js"></script>
   <script defer src="xbox360-games.js"></script>
   <script defer src="gameplay.js?v=3"></script>
   <script defer src="gameplay-ps2.js"></script>
   <script defer src="gameplay-xbox360.js"></script>
-  <script defer src="archive.js?v=3"></script>
+  <script defer src="archive.js?v=4"></script>
 </head>
 <body>
   <a class="skip" href="#catalog">Skip to the covers</a>
@@ -93,29 +93,30 @@
     </div>
   </footer>
   <dialog id="game-dialog" aria-labelledby="game-title">
-    <div class="game-toolbar">
-      <nav class="game-nav" aria-label="Browse games">
-        <button type="button" id="game-previous" aria-label="Previous game"><span aria-hidden="true">←</span><span class="game-step-label">Previous</span></button>
-        <span id="game-position" aria-live="polite" aria-atomic="true"></span>
-        <button type="button" id="game-next" aria-label="Next game"><span class="game-step-label">Next</span><span aria-hidden="true">→</span></button>
-      </nav>
+    <div class="game-header">
+      <div>
+        <p class="eyebrow" id="game-volume"></p>
+        <h2 id="game-title"></h2>
+      </div>
       <form method="dialog"><button class="close-game" type="submit" aria-label="Close game details" autofocus>×</button></form>
     </div>
     <div class="game-panel">
-      <div class="game-cover cover-frame"><img id="game-image" alt=""></div>
       <div class="game-copy">
-        <p class="eyebrow" id="game-volume"></p>
-        <h2 id="game-title"></h2>
         <dl class="facts">
           <div><dt>Released</dt><dd id="game-year"></dd></div>
           <div><dt>Genre</dt><dd id="game-genre"></dd></div>
           <div><dt>Cover region</dt><dd id="game-region"></dd></div>
         </dl>
         <p class="game-description" id="game-description"></p>
-        <a class="cover-source" id="game-source" target="_blank" rel="noreferrer">View cover scan <span aria-hidden="true">↗</span></a>
       </div>
-      <section class="gameplay" id="gameplay" aria-labelledby="gameplay-title" hidden>
-        <div class="gameplay-heading">
+      <div class="game-cover game-media">
+        <div class="game-media-heading">
+          <a class="cover-source" id="game-source" target="_blank" rel="noreferrer">Cover scan <span aria-hidden="true">↗</span></a>
+        </div>
+        <img id="game-image" alt="">
+      </div>
+      <section class="gameplay game-media" id="gameplay" aria-labelledby="gameplay-title" hidden>
+        <div class="game-media-heading">
           <h3 id="gameplay-title">Gameplay</h3>
           <a class="cover-source" id="gameplay-source" target="_blank" rel="noreferrer">Screenshot source <span aria-hidden="true">↗</span></a>
         </div>

@@ -14,9 +14,6 @@
   const sort = find('#sort')
   const dialog = find('#game-dialog')
   const modalSource = find('#game-source')
-  const previousGame = find('#game-previous')
-  const nextGame = find('#game-next')
-  const gamePosition = find('#game-position')
   const gameplay = find('#gameplay')
   const gameplaySource = find('#gameplay-source')
   const collator = new Intl.Collator('en', { sensitivity: 'base', numeric: true })
@@ -83,12 +80,6 @@
   function openDetails(game, sequence = visibleGames.includes(game) ? visibleGames : catalog.filter(entry => entry.console === game.console)) {
     detailGames = sequence
     detailIndex = sequence.indexOf(game)
-    previousGame.disabled = detailIndex === 0
-    nextGame.disabled = detailIndex === sequence.length - 1
-    gamePosition.textContent = `${detailIndex + 1} / ${sequence.length}`
-    if (document.activeElement === previousGame && previousGame.disabled && !nextGame.disabled) nextGame.focus()
-    if (document.activeElement === nextGame && nextGame.disabled && !previousGame.disabled) previousGame.focus()
-    dialog.dataset.platform = game.console
     find('#game-title').textContent = game.title
     find('#game-volume').textContent = consoles[game.console].title
     find('#game-year').textContent = game.year
@@ -168,14 +159,6 @@
     const game = catalog.find(entry => entry.console === consoleId && entry.id === card.dataset.game)
     history.pushState({ gameOpenedFromCatalog: true }, '', '#' + consoleId + '/' + game.id)
     openDetails(game)
-  })
-  previousGame.addEventListener('click', () => moveDetails(-1))
-  nextGame.addEventListener('click', () => moveDetails(1))
-  dialog.addEventListener('keydown', event => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
-    event.preventDefault()
-    moveDetails(event.key === 'ArrowLeft' ? -1 : 1)
   })
   dialog.addEventListener('touchstart', event => {
     swipeStart = event.touches.length === 1 && !event.target.closest('button, a') ? event.touches[0] : null
